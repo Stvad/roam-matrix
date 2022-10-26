@@ -1,0 +1,19 @@
+{
+  "name": "roam-matrix",
+  "version": "1.0.0",
+  "description": "Description for roam-matrix.",
+  "main": "./build/main.js",
+  "scripts": {
+    "prebuild:roam": "npm install",
+    "build:roam": "roamjs-scripts build --depot",
+    "start": "roamjs-scripts dev --depot"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "roamjs-scripts": "^0.24.3"
+  },
+  "dependencies": {
+    "matrix-rx": "../matrix-rx",
+    "roamjs-components": "^0.74.19"
+  }
+}
