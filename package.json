@@ -4,15 +4,21 @@
   "description": "Description for roam-matrix.",
   "main": "./build/main.js",
   "scripts": {
-    "prebuild:roam": "npm install",
+    "prebuild:roam": "yarn install",
     "build:roam": "roamjs-scripts build --depot",
-    "start": "roamjs-scripts dev --depot"
+    "start:depot": "roamjs-scripts dev --depot",
+    "start": "roamjs-scripts dev"
   },
   "license": "MIT",
   "devDependencies": {
+    "@types/react": "^18.0.24",
+    "@types/react-dom": "^18.0.8",
+    "dotenv": "^16.0.3",
+    "nearley": "^2.20.1",
     "roamjs-scripts": "^0.24.3"
   },
   "dependencies": {
+    "@blueprintjs/core": "^4.11.5",
     "matrix-rx": "../matrix-rx",
     "roamjs-components": "^0.74.19"
   }
