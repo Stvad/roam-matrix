@@ -8,10 +8,16 @@ export default runExtension({
       settings: [],
     });
 
+    const label = "Page Chat"
+
     window.roamAlphaAPI.ui.commandPalette.addCommand({
-      label: "Page chat",
+      label: label,
       callback: async () => RoomChatOverlay({pageId: await window.roamAlphaAPI.ui.mainWindow.getOpenPageOrBlockUid()}),
     })
     console.log("roam-matrix loaded")
+
+    return () => {
+      window.roamAlphaAPI.ui.commandPalette.removeCommand({label})
+    }
   },
 });

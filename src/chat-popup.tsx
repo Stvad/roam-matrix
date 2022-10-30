@@ -1,4 +1,5 @@
 import {Classes, Dialog} from '@blueprintjs/core'
+import {Login, Room} from 'matrix-rx'
 import React from 'react';
 import {createOverlayRender} from 'roamjs-components/util'
 import {useState} from 'react'
@@ -22,7 +23,9 @@ export const ChatPopup = ({onClose, pageId}: { onClose: () => void; } & ChatPopu
             <div className={Classes.DIALOG_BODY + ' autocomplete-dialog-body'}>
 
                 <h3>Chat {pageId}</h3>
-
+                <Login>
+                    <Room roomId={'!AtyuVyqNFWfJMwlbwR:matrix.org'}/>
+                </Login>
             </div>
         </Dialog>
     )
