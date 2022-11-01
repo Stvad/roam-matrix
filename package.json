@@ -20,6 +20,7 @@
   "dependencies": {
     "@blueprintjs/core": "^4.11.5",
     "matrix-rx": "../matrix-rx",
+    "roam-api-wrappers": "^0.1.2",
     "roamjs-components": "^0.74.19"
   }
 }
