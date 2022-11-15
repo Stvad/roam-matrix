@@ -1,6 +1,7 @@
 import runExtension from "roamjs-components/util/runExtension";
 import {RoomChatOverlay} from './chat-popup'
 import {sendAutocompleteConfiguration} from './autocomplete-configuration'
+import {watchMatrixMessages} from './watch-messages'
 
 export default runExtension({
   run: async (args) => {
@@ -19,8 +20,11 @@ export default runExtension({
 
     await sendAutocompleteConfiguration()
 
+    const stopWatching = watchMatrixMessages('!AtyuVyqNFWfJMwlbwR:matrix.org', '$OH8NoPhsZVjzH63kVN-RlaCmoyFbWcUxh8khNJi8-v0')
+
     return () => {
       window.roamAlphaAPI.ui.commandPalette.removeCommand({label})
+      stopWatching()
     }
   },
 });
