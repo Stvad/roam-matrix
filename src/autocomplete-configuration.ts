@@ -1,7 +1,7 @@
-import {loadCredentials} from './chat-popup'
 import {Matrix} from 'matrix-rx'
 
 import {Page, Roam} from 'roam-api-wrappers/dist/data'
+import {loadCredentials} from './client'
 
 export async function sendAutocompleteConfiguration() {
     const credentials = loadCredentials()
