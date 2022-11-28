@@ -20,7 +20,7 @@ export default runExtension({
 
     await sendAutocompleteConfiguration()
 
-    const stopWatching = startEventWatcher()
+        const stopWatching = await startEventWatcher()
 
     return () => {
       window.roamAlphaAPI.ui.commandPalette.removeCommand({label})
