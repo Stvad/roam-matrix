@@ -6,6 +6,8 @@
   "scripts": {
     "prebuild:roam": "yarn install",
     "build:roam": "roamjs-scripts build --depot",
+    "build": "roamjs-scripts build",
+    "deploy": "netlify deploy --prod -s roam-matrix.netlify.app -d build",
     "start:depot": "roamjs-scripts dev --depot",
     "start": "roamjs-scripts dev"
   },

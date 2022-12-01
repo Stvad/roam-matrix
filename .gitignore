@@ -6,3 +6,5 @@ out
 extension.js
 extension.js.LICENSE.txt
   
+# Local Netlify folder
+.netlify

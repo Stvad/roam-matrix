@@ -5,7 +5,7 @@ import {createOverlayRender} from 'roamjs-components/util'
 import {saveCredentials} from './client'
 
 interface ChatPopupProps {
-    pageId: string;
+    pageId: string | null | undefined;
 }
 
 export const ChatPopup = ({onClose, pageId}: { onClose: () => void; } & ChatPopupProps) => {
@@ -21,7 +21,7 @@ export const ChatPopup = ({onClose, pageId}: { onClose: () => void; } & ChatPopu
 
                 <h3>Chat {pageId}</h3>
                 <Login onLogin={saveCredentials}>
-                    <Room roomId={'!AtyuVyqNFWfJMwlbwR:matrix.org'}/>
+                    <Room roomId={'!JKTtZkzPOSaVfMRZYN:matrix.org'}/>
                 </Login>
             </div>
         </Dialog>

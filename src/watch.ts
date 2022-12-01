@@ -7,10 +7,10 @@ import {tap} from 'rxjs/operators'
 import {Store} from './storage'
 import {memoize} from './async'
 
-export const watchMessages = (roomId: string, since: EventsSince) =>
+export const watchMessages = (roomId: string, since?: EventsSince) =>
     watchEvents(roomId, since).pipe(filter(it => it.type === 'm.room.message'))
 
-export const watchEvents = (roomId: string, since: EventsSince) =>
+export const watchEvents = (roomId: string, since?: EventsSince) =>
     clientFromStoredCredentials().room(roomId, since).watchEventValues()
 
 class MessageWatcher {
@@ -30,10 +30,10 @@ class MessageWatcher {
     watch() {
         // I wonder if this can end up problematic (are events guaranteed to be always in order?)
         console.log('watching starting from', this.lastEvent?.event_id)
-        return watchMessages(this.roomId, {
+        return watchMessages(this.roomId, this.lastEvent?.event_id ? {
             eventId: this.lastEvent?.event_id,
             timestamp: this.lastEvent?.origin_server_ts,
-        })
+        } : undefined)
             .pipe(tap(it => {
                 if (it.origin_server_ts > (this.lastEvent?.origin_server_ts ?? 0)) {
                     this.lastEvent = it
@@ -55,8 +55,8 @@ async function todaysLogBlock(): Promise<Block> {
     return Block.fromUid(newUid)!
 }
 
-export const startEventWatcher = async (): Promise<() => void> => {
-    const messages = new MessageWatcher('!xwGMGAlaCQHDOKHxGB:matrix.org').watch()
+export const startEventWatcher = async (roomId: string): Promise<() => void> => {
+    const messages = new MessageWatcher(roomId).watch()
     /**
      * This rn handles only the "create block when there are many initial messages" case.
      * May be an overcomplicated way of solving it 🤔
@@ -64,10 +64,10 @@ export const startEventWatcher = async (): Promise<() => void> => {
     const getBlock = memoize(todaysLogBlock, 1000 * 5)
 
     const subscription = messages.subscribe(async (it: AggregatedEvent) => {
-        if (it.content.body?.includes(']]')) {
-            const block = await getBlock()
-            block.appendChild(it.content.body)
-        }
+        // if (it.content.body?.includes(']]')) {
+        const block = await getBlock()
+        block.appendChild(it.content.body!)
+        // }
     })
 
     return () => subscription.unsubscribe()

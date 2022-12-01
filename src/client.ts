@@ -13,9 +13,9 @@ export const loadCredentials = (): Credentials | undefined => {
     return credentials ? JSON.parse(credentials) : undefined
 }
 
-export const clientFromStoredCredentials = (): Matrix | null => {
+export const clientFromStoredCredentials = (): Matrix => {
     const credentials = loadCredentials()
-    if (!credentials) return null
+    if (!credentials) throw new Error('No credentials found')
 
     return Matrix.fromCredentials(credentials)
 }

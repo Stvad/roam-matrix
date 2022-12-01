@@ -3,7 +3,7 @@ import {Matrix} from 'matrix-rx'
 import {Page, Roam} from 'roam-api-wrappers/dist/data'
 import {loadCredentials} from './client'
 
-export async function sendAutocompleteConfiguration() {
+export async function sendAutocompleteConfiguration(roomId: string) {
     const credentials = loadCredentials()
     if (!credentials) return
 
@@ -18,10 +18,10 @@ export async function sendAutocompleteConfiguration() {
 
     const matrix = Matrix.fromCredentials(credentials)
 
-    const graphId = 'stvad'
+    const graphId = window.roamAlphaAPI.graph.name
 
     // todo select room in ui or at least let user enter the id
-    return matrix.sendStateEvent('!xwGMGAlaCQHDOKHxGB:matrix.org', {
+    return matrix.sendStateEvent(roomId, {
         type: 'matrix-rx.autocomplete',
         stateKey: 'allPages',
         content: {
