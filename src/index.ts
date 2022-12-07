@@ -38,7 +38,7 @@ export default runExtension({
             return
         }
 
-        await sendAutocompleteConfiguration(roomIdToConfigure)
+        void sendAutocompleteConfiguration(roomIdToConfigure)
 
         const stopWatching = await startEventWatcher(roomIdToConfigure)
 
