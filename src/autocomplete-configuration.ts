@@ -17,13 +17,15 @@ export async function sendAutocompleteConfiguration(roomId: string, store: Store
     const chunks = chunkPages(autocompletePages)
     console.log('Splitting autocomplete configuration into', chunks.length, 'chunks')
 
-    for (const [idx, chunk] of chunks.entries()) {
     const graphId = window.roamAlphaAPI.graph.name
+
+    for (const [idx, chunk] of chunks.entries()) {
         await matrix.sendStateEvent(roomId, {
             type: 'matrix-rx.autocomplete',
-            stateKey: `roam.autocomplete-pages.${graphId}.${idx}`,
+            state_key: `roam.autocomplete-pages.${graphId}.${idx}`,
             content: {
                 pages: chunk,
+                urlPattern: `https://roamresearch.com/#/app/${graphId}/page/{{id}}`,
             },
         })
     }
@@ -36,13 +38,14 @@ function getAutocompletePages() {
     return allPages
         .filter(notSrsPage)
         // we want a stable order for incremental updates
+        // todo sample prevents the consistent chunk size, need to figure that out - maybe derive size only when re-sending everything?
+        // or re-send everything only if chunk size changes significantly 🤔
         .sort((a, b) => a.createdTime - b.createdTime)
         .map(it => ({
         text: it.text,
         id: it.uid,
         // todo this is not great perf wise, and probs not a great summary either
         summary: it.children[0]?.text,
-        url: it.url,
     }))
 }
 
