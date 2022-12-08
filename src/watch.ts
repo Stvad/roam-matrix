@@ -1,7 +1,7 @@
 import {filter} from 'rxjs'
 import {clientFromStoredCredentials} from './client'
 import {AggregatedEvent, EventsSince} from 'matrix-rx'
-import {Page, Roam, Block} from 'roam-api-wrappers/dist/data'
+import {Page, Block} from 'roam-api-wrappers/dist/data'
 import {RoamDate} from 'roam-api-wrappers/dist/date'
 import {tap} from 'rxjs/operators'
 import {Store} from './storage'
@@ -19,11 +19,11 @@ class MessageWatcher {
     constructor(private roomId: string, private store: Store = new Store()) {
     }
 
-    private get lastEvent(): AggregatedEvent | null {
+    private get lastEvent(): AggregatedEvent | undefined {
         return this.store.get<AggregatedEvent>(this.storageKey)
     }
 
-    private set lastEvent(value: AggregatedEvent | null) {
+    private set lastEvent(value: AggregatedEvent | undefined) {
         this.store.set(this.storageKey, value)
     }
 
@@ -55,6 +55,13 @@ async function todaysLogBlock(): Promise<Block> {
     return Block.fromUid(newUid)!
 }
 
+function unwrapLinks(text: string) {
+    const graphId = window.roamAlphaAPI.graph.name
+
+    const regex = new RegExp(`\\[(.*?)]\\(https:\\/\\/roamresearch\\.com\\/#\\/app\\/${graphId}\\/page\\/[a-zA-Z-_0-9]+?\\)`, 'g')
+    return text.replaceAll(regex, '$1')
+}
+
 export const startEventWatcher = async (roomId: string): Promise<() => void> => {
     const messages = new MessageWatcher(roomId).watch()
     /**
@@ -64,10 +71,8 @@ export const startEventWatcher = async (roomId: string): Promise<() => void> => 
     const getBlock = memoize(todaysLogBlock, 1000 * 5)
 
     const subscription = messages.subscribe(async (it: AggregatedEvent) => {
-        // if (it.content.body?.includes(']]')) {
         const block = await getBlock()
-        block.appendChild(it.content.body!)
-        // }
+        block.appendChild(unwrapLinks(it.content.body!))
     })
 
     return () => subscription.unsubscribe()
