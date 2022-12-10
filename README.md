@@ -1,5 +1,5 @@
 # roam-matrix
         
-Description for roam-matrix.
+A [Matrix](https://matrix.org) client for RoamResearch.
   
-For full documentation, checkout https://roamjs.com/extensions/roam-matrix!
+Built on https://github.com/Stvad/matrix-rx 
