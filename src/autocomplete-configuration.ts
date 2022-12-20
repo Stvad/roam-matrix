@@ -3,9 +3,8 @@ import {Matrix} from 'matrix-rx'
 import {Page, Roam} from 'roam-api-wrappers/dist/data'
 import {loadCredentials} from './client'
 import sampleSize from 'lodash.samplesize'
-import {Store} from './storage'
 
-export async function sendAutocompleteConfiguration(roomId: string, store: Store = new Store()) {
+export async function sendAutocompleteConfiguration(roomId: string) {
     const credentials = loadCredentials()
     if (!credentials) return
 

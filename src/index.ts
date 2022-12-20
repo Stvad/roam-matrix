@@ -2,6 +2,7 @@ import runExtension from 'roamjs-components/util/runExtension'
 import {RoomChatOverlay} from './chat-popup'
 import {sendAutocompleteConfiguration} from './autocomplete-configuration'
 import {startEventWatcher} from './watch'
+import {createConfigPage} from './config'
 
 export default runExtension({
     run: async (args) => {
@@ -21,6 +22,8 @@ export default runExtension({
                 },
             ],
         })
+
+        await createConfigPage()
 
         const label = 'Page Chat'
 
